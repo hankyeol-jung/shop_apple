@@ -21,24 +21,27 @@ function App() {
       <div className="main-bg"></div>
 
       <Container>
-        <Modal shoes={shoes}></Modal>
+        <Row>
+          {shoes.map((a, i) => {
+            return <Card shoes={shoes[i]} i={i}></Card>;
+          })}
+        </Row>
       </Container>
     </div>
   );
 }
-function Modal(props) {
+function Card(props) {
   return (
-    <Row>
-      {props.shoes.map(function (a, i) {
-        return (
-          <Col md={4}>
-            <img src={props.shoes[i].img} width={"80%"} />
-            <h4>{props.shoes[i].title}</h4>
-            <p>{props.shoes[i].price}</p>
-          </Col>
-        );
-      })}
-    </Row>
+    <Col md={4}>
+      <img
+        src={
+          "https://codingapple1.github.io/shop/shoes" + (props.i + 1) + ".jpg"
+        }
+        width={"80%"}
+      />
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.price}</p>
+    </Col>
   );
 }
 
