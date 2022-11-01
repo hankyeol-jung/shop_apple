@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import "./App.css";
+import data from "./data.js";
 
 function App() {
+  let [shoes] = useState(data);
+
   return (
     <div className="App">
       <Navbar bg="light" variant="light">
@@ -17,34 +21,24 @@ function App() {
       <div className="main-bg"></div>
 
       <Container>
-        <Row>
-          <Col md={4}>
-            <img
-              src="https://codingapple1.github.io/shop/shoes1.jpg"
-              width={"80%"}
-            />
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </Col>
-          <Col md={4}>
-            <img
-              src="https://codingapple1.github.io/shop/shoes2.jpg"
-              width={"80%"}
-            />
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </Col>
-          <Col md={4}>
-            <img
-              src="https://codingapple1.github.io/shop/shoes3.jpg"
-              width={"80%"}
-            />
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </Col>
-        </Row>
+        <Modal shoes={shoes}></Modal>
       </Container>
     </div>
+  );
+}
+function Modal(props) {
+  return (
+    <Row>
+      {props.shoes.map(function (a, i) {
+        return (
+          <Col md={4}>
+            <img src={props.shoes[i].img} width={"80%"} />
+            <h4>{props.shoes[i].title}</h4>
+            <p>{props.shoes[i].price}</p>
+          </Col>
+        );
+      })}
+    </Row>
   );
 }
 
