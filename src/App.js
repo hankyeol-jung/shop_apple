@@ -6,7 +6,7 @@ import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./routes/Detail";
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
   return (
@@ -24,7 +24,7 @@ function App() {
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                navigate("/detail");
+                navigate("/detail/0");
               }}
             >
               Detail
@@ -40,59 +40,55 @@ function App() {
             <>
               <div className="main-bg"></div>
 
+              <Button
+                onClick={() => {
+                  let copy = [...shoes];
+                  copy = copy.sort((x, y) => x.title.localeCompare(y.title));
+                  setShoes(copy);
+                }}
+                variant="outline-secondary"
+              >
+                정렬
+              </Button>
+
               <Container>
                 <Row>
                   {shoes.map((a, i) => {
-                    return <Card shoes={shoes[i]} i={i}></Card>;
+                    return (
+                      <Card shoes={shoes[i]} i={i} navigate={navigate}></Card>
+                    );
                   })}
                 </Row>
               </Container>
             </>
           }
         />
-        <Route path="/detail" element={<Detail />} />
-        <Route path="/about" element={<About />}>
-          <Route path="member" element={<div>멤버임</div>} />
-          <Route path="location" element={<div>위치정보임</div>} />
-        </Route>
-        <Route path="/event" element={<Event />}>
-          <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
-          <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
-        </Route>
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         <Route path="*" element={<div>없는페이지요</div>} />
       </Routes>
     </div>
   );
 }
+
 function Card(props) {
   return (
-    <Col md={4}>
+    <Col
+      md={4}
+      onClick={() => {
+        props.navigate("/detail/" + props.i);
+      }}
+    >
       <img
         src={
-          "https://codingapple1.github.io/shop/shoes" + (props.i + 1) + ".jpg"
+          "https://codingapple1.github.io/shop/shoes" +
+          (props.shoes.id + 1) +
+          ".jpg"
         }
         width={"80%"}
       />
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
     </Col>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h4>회사정보임</h4>
-      <Outlet></Outlet>
-    </div>
-  );
-}
-function Event() {
-  return (
-    <div>
-      <h4>오늘의 이벤트</h4>
-      <Outlet></Outlet>
-    </div>
   );
 }
 
