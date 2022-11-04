@@ -1,26 +1,31 @@
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
-
-let YellowBtn = styled.button`
-  background: ${(props) => props.bg};
-  color: ${(props) => (props.bg == "blue" ? "white" : "black")};
-  padding: 10px;
-`;
-
-let Box = styled.div`
-  background: gray;
-  padding: 20px;
-`;
 
 function Detail(props) {
+  let [none, setNone] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setNone(false);
+    }, 2000);
+  });
+
+  let [count, setCount] = useState(0);
+
   let { id, setId } = useParams();
   let findPro = props.shoes.find(function (x) {
     return x.id == id;
   });
   return (
     <div className="container">
-      <YellowBtn bg="blue">버튼</YellowBtn>
-      <YellowBtn bg="orange">버튼</YellowBtn>
+      {none == true ? <Modal /> : null}
+      {count}
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        버튼
+      </button>
       <div className="row">
         <div className="col-md-6">
           <img
@@ -41,6 +46,10 @@ function Detail(props) {
       </div>
     </div>
   );
+}
+
+function Modal() {
+  return <div className="alert alert-warning">2초이내 구매시 할인</div>;
 }
 
 export default Detail;
