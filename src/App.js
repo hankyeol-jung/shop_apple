@@ -8,7 +8,32 @@ import axios from "axios";
 
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [num, setNum] = useState(0);
   let navigate = useNavigate();
+
+  let clickGet = () => {
+    if (num == 0) {
+      axios
+        .get("https://codingapple1.github.io/shop/data2.json")
+        .then((result) => {
+          let copy = [...shoes, ...result.data];
+          setShoes(copy);
+        })
+        .catch(() => {
+          console.log("실패");
+        });
+    } else if (num == 1) {
+      axios
+        .get("https://codingapple1.github.io/shop/data3.json")
+        .then((result) => {
+          let copy = [...shoes, ...result.data];
+          setShoes(copy);
+        })
+        .catch(() => {
+          console.log("실패");
+        });
+    }
+  };
 
   return (
     <div className="App">
@@ -61,21 +86,16 @@ function App() {
                   })}
                 </Row>
               </Container>
-              <button
-                onClick={() => {
-                  axios
-                    .get("https://codingapple1.github.io/shop/data2.json")
-                    .then((result) => {
-                      let copy = [...shoes, ...result.data];
-                      setShoes(copy);
-                    })
-                    .catch(() => {
-                      console.log("실패");
-                    });
-                }}
-              >
-                버튼
-              </button>
+              {num <= 1 ? (
+                <button
+                  onClick={() => {
+                    setNum(num + 1);
+                    clickGet();
+                  }}
+                >
+                  버튼
+                </button>
+              ) : null}
             </>
           }
         />
