@@ -8,6 +8,15 @@ function Detail(props) {
   let { id, setId } = useParams();
   let [num, setNum] = useState("");
   let [tab, setTab] = useState(0);
+  let [fade2, setFade2] = useState("");
+  useEffect(() => {
+    setTimeout(() => {
+      setFade2("end");
+    }, 100);
+    return () => {
+      setFade2("");
+    };
+  }, []);
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -22,7 +31,7 @@ function Detail(props) {
     return x.id == id;
   });
   return (
-    <div className="container">
+    <div className={"container start " + fade2}>
       {pop == true ? (
         <div className="alert alert-warning">2초이내 구매시 할인</div>
       ) : null}
@@ -97,14 +106,21 @@ function Detail(props) {
 }
 
 function TabContent({ tab }) {
-  // if (tab == 0) {
-  //   return <div>내용0</div>;
-  // } else if (tab == 1) {
-  //   return <div>내용1</div>;
-  // } else if (tab == 2) {
-  //   return <div>내용2</div>;
-  // }
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab];
+  let [fade, setFade] = useState("");
+  useEffect(() => {
+    setTimeout(() => {
+      setFade("end");
+    }, 100);
+    return () => {
+      setFade("");
+    };
+  }, [tab]);
+
+  return (
+    <div className={"start " + fade}>
+      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+    </div>
+  );
 }
 
 export default Detail;
