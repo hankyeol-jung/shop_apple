@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import "./App.css";
 import data from "./data.js";
@@ -6,8 +6,12 @@ import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./routes/Detail";
 import axios from "axios";
 
+export let Context1 = createContext();
+
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [재고] = useState([10, 11, 12]);
+
   let [num, setNum] = useState(0);
   let navigate = useNavigate();
 
@@ -99,7 +103,14 @@ function App() {
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ 재고, shoes }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
         <Route path="*" element={<div>없는페이지요</div>} />
       </Routes>
     </div>

@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
+import { Context1 } from "./../App.js";
 
 function Detail(props) {
+  let { 재고 } = useContext(Context1);
   let [pop, setPop] = useState(true);
   let [count, setCount] = useState(0);
   let { id, setId } = useParams();
@@ -107,6 +109,7 @@ function Detail(props) {
 
 function TabContent({ tab }) {
   let [fade, setFade] = useState("");
+  let { 재고 } = useContext(Context1);
   useEffect(() => {
     setTimeout(() => {
       setFade("end");
@@ -118,7 +121,7 @@ function TabContent({ tab }) {
 
   return (
     <div className={"start " + fade}>
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+      {[<div>{재고}</div>, <div>내용1</div>, <div>내용2</div>][tab]}
     </div>
   );
 }
