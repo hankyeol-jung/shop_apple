@@ -11,7 +11,6 @@ export let Context1 = createContext();
 
 function App() {
   let [shoes, setShoes] = useState(data);
-  let [재고] = useState([10, 11, 12]);
 
   let [num, setNum] = useState(0);
   let navigate = useNavigate();
@@ -59,6 +58,13 @@ function App() {
               }}
             >
               Detail
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
+              Cart
             </Nav.Link>
           </Nav>
         </Container>

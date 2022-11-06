@@ -1,8 +1,21 @@
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 function Cart() {
+  let state = useSelector((state) => state);
+  let [fade, setFade] = useState("");
+  useEffect(() => {
+    setTimeout(() => {
+      setFade("end");
+    }, 100);
+    return () => {
+      setFade("");
+    };
+  }, []);
+
   return (
-    <div>
+    <div className={"start " + fade}>
       <Table>
         <thead>
           <tr>
@@ -13,12 +26,16 @@ function Cart() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>안녕</td>
-            <td>안녕</td>
-            <td>안녕</td>
-          </tr>
+          {state.stock.map((a, i) => {
+            return (
+              <tr>
+                <td>{state.stock[i].id}</td>
+                <td>{state.stock[i].name}</td>
+                <td>{state.stock[i].count}</td>
+                <td>안녕</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </div>
