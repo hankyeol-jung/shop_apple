@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { changeName, addCount } from "./../store.js";
+import { changeName, increase } from "./../store/userSlice.js";
+import { addCount } from "./../store.js";
 
 function Cart() {
   let state = useSelector((state) => state);
@@ -18,7 +19,15 @@ function Cart() {
 
   return (
     <div className={"start " + fade}>
-      {state.user}의 장바구니
+      {state.user.name}
+      {state.user.age}의 장바구니
+      <button
+        onClick={() => {
+          dispatch(increase());
+        }}
+      >
+        버튼
+      </button>
       <Table>
         <thead>
           <tr>
@@ -37,7 +46,7 @@ function Cart() {
               <td>
                 <button
                   onClick={() => {
-                    dispatch(addCount());
+                    dispatch(addCount(i));
                   }}
                 >
                   +

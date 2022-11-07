@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
+import { addCart } from "./../store.js";
+import { useDispatch, useSelector } from "react-redux";
 
 function Detail(props) {
+  let state = useSelector((state) => state);
   let [pop, setPop] = useState(true);
   let [count, setCount] = useState(0);
   let { id, setId } = useParams();
   let [num, setNum] = useState("");
   let [tab, setTab] = useState(0);
   let [fade2, setFade2] = useState("");
+  let dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
       setFade2("end");
@@ -64,7 +68,21 @@ function Detail(props) {
           <h4 className="pt-5">{props.shoes[id].title}</h4>
           <p>{props.shoes[id].content}</p>
           <p>{props.shoes[id].price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              dispatch(
+                addCart({
+                  id: props.shoes[id].id,
+                  name: props.shoes[id].title,
+                  count: 1,
+                })
+              );
+              console.log(state);
+            }}
+          >
+            주문하기
+          </button>
         </div>
       </div>
 
