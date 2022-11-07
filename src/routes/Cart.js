@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { changeName, addCount } from "./../store.js";
 
 function Cart() {
   let state = useSelector((state) => state);
   let [fade, setFade] = useState("");
+  let dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
       setFade("end");
@@ -16,6 +18,7 @@ function Cart() {
 
   return (
     <div className={"start " + fade}>
+      {state.user}의 장바구니
       <Table>
         <thead>
           <tr>
@@ -26,16 +29,22 @@ function Cart() {
           </tr>
         </thead>
         <tbody>
-          {state.stock.map((a, i) => {
-            return (
-              <tr>
-                <td>{state.stock[i].id}</td>
-                <td>{state.stock[i].name}</td>
-                <td>{state.stock[i].count}</td>
-                <td>안녕</td>
-              </tr>
-            );
-          })}
+          {state.cart.map((a, i) => (
+            <tr key={i}>
+              <td>{state.cart[i].id}</td>
+              <td>{state.cart[i].name}</td>
+              <td>{state.cart[i].count}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    dispatch(addCount());
+                  }}
+                >
+                  +
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>
