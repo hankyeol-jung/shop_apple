@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
-import { addCart } from "./../store.js";
+import { addItem } from "./../store.js";
 import { useDispatch, useSelector } from "react-redux";
 
 function Detail(props) {
@@ -72,7 +72,7 @@ function Detail(props) {
             className="btn btn-danger"
             onClick={() => {
               dispatch(
-                addCart({
+                addItem({
                   id: props.shoes[id].id,
                   name: props.shoes[id].title,
                   count: 1,

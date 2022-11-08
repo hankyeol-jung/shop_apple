@@ -46,7 +46,7 @@ function Cart() {
               <td>
                 <button
                   onClick={() => {
-                    dispatch(addCount(i));
+                    dispatch(addCount(state.cart[i].id));
                   }}
                 >
                   +
