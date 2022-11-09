@@ -17,7 +17,11 @@ function App() {
   // console.log(꺼낸거.name);
 
   useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify([]));
+    let 꺼낸거 = localStorage.getItem("watched");
+    꺼낸거 = JSON.parse(꺼낸거);
+    Array.isArray(꺼낸거) == false
+      ? localStorage.setItem("watched", JSON.stringify([]))
+      : console.log("");
   }, []);
 
   let [shoes, setShoes] = useState(data);
