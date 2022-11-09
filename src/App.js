@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import "./App.css";
 import data from "./data.js";
@@ -10,6 +10,16 @@ import Cart from "./routes/Cart.js";
 export let Context1 = createContext();
 
 function App() {
+  // let obj = { name: "kim" };
+  // localStorage.setItem("data", JSON.stringify(obj));
+  // let 꺼낸거 = localStorage.getItem("data");
+  // 꺼낸거 = JSON.parse(꺼낸거);
+  // console.log(꺼낸거.name);
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify([]));
+  }, []);
+
   let [shoes, setShoes] = useState(data);
 
   let [num, setNum] = useState(0);
