@@ -1,22 +1,19 @@
-import { createContext, useEffect, useState } from "react";
+import { lazy, Suspense, createContext, useEffect, useState } from "react";
 import { Button, Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import "./App.css";
 import data from "./data.js";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-import Detail from "./routes/Detail";
 import axios from "axios";
-import Cart from "./routes/Cart.js";
 import { useQuery } from "react-query";
+// import Detail from "./routes/Detail";
+// import Cart from "./routes/Cart.js";
+
+const Detail = lazy(() => import("./routes/Detail"));
+const Cart = lazy(() => import("./routes/Cart.js"));
 
 export let Context1 = createContext();
 
 function App() {
-  // let obj = { name: "kim" };
-  // localStorage.setItem("data", JSON.stringify(obj));
-  // let 꺼낸거 = localStorage.getItem("data");
-  // 꺼낸거 = JSON.parse(꺼낸거);
-  // console.log(꺼낸거.name);
-
   useEffect(() => {
     let 꺼낸거 = localStorage.getItem("watched");
     꺼낸거 = JSON.parse(꺼낸거);
@@ -56,7 +53,6 @@ function App() {
 
   let result = useQuery("작명", () =>
     axios.get("https://codingapple1.github.io/userdata.json").then((a) => {
-      console.log("요청됨");
       return a.data;
     })
   );
@@ -96,51 +92,53 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
+      <Suspense fallback={<div>로딩중</div>}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="main-bg"></div>
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="main-bg"></div>
-
-              <Button
-                onClick={() => {
-                  let copy = [...shoes];
-                  copy = copy.sort((x, y) => x.title.localeCompare(y.title));
-                  setShoes(copy);
-                }}
-                variant="outline-secondary"
-              >
-                정렬
-              </Button>
-
-              <Container>
-                <Row>
-                  {shoes.map((a, i) => {
-                    return (
-                      <Card shoes={shoes[i]} i={i} navigate={navigate}></Card>
-                    );
-                  })}
-                </Row>
-              </Container>
-              {num <= 1 ? (
-                <button
+                <Button
                   onClick={() => {
-                    setNum(num + 1);
-                    clickGet();
+                    let copy = [...shoes];
+                    copy = copy.sort((x, y) => x.title.localeCompare(y.title));
+                    setShoes(copy);
                   }}
+                  variant="outline-secondary"
                 >
-                  버튼
-                </button>
-              ) : null}
-            </>
-          }
-        />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="*" element={<div>없는페이지요</div>} />
-      </Routes>
+                  정렬
+                </Button>
+
+                <Container>
+                  <Row>
+                    {shoes.map((a, i) => {
+                      return (
+                        <Card shoes={shoes[i]} i={i} navigate={navigate}></Card>
+                      );
+                    })}
+                  </Row>
+                </Container>
+                {num <= 1 ? (
+                  <button
+                    onClick={() => {
+                      setNum(num + 1);
+                      clickGet();
+                    }}
+                  >
+                    버튼
+                  </button>
+                ) : null}
+              </>
+            }
+          />
+
+          <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="*" element={<div>없는페이지요</div>} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
