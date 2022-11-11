@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeName, increase } from "./../store/userSlice.js";
 import { addCount } from "./../store.js";
 
+let Child = memo(function () {
+  console.log("재렌더링됨");
+  return <div>자식임</div>;
+});
+
+// function 함수(){
+//   return 반복문 10억번 돌린결과
+// }
+
 function Cart() {
+  // let result = useMemo(()=>{return 함수()},[state])
   let state = useSelector((state) => state);
   let [fade, setFade] = useState("");
   let dispatch = useDispatch();
+  let [count, setCount] = useState(0);
   useEffect(() => {
     setTimeout(() => {
       setFade("end");
@@ -16,9 +27,16 @@ function Cart() {
       setFade("");
     };
   }, []);
-
   return (
     <div className={"start " + fade}>
+      <Child count={count}></Child>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        +
+      </button>
       {state.user.name}
       {state.user.age}의 장바구니
       <button
